@@ -69,7 +69,7 @@ app.post('/join', async (req, res) => {
     } catch (e) {
         console.error(e)
         console.log('Discord issue')
-        return res.status(500).send({msg: 'Internal Server Error'})
+        return res.status(500).send({msg: 'Internal Server Error\nPlease try again later!'})
     }
 
     const {code} = resp.data
@@ -95,7 +95,7 @@ app.post('/join', async (req, res) => {
             )
         } catch {
         }
-        return res.status(500).send({msg: 'Internal Server Error'})
+        return res.status(500).send({msg: 'Internal Server Error\nPlease try again later!'})
     }
 
     try {
