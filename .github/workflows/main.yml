@@ -29,6 +29,7 @@ jobs:
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
             export PATH="$PATH:$(npm bin -g)"
+            export PATH="$PATH:$(yarn global bin)"
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             cd ~/phc-server
