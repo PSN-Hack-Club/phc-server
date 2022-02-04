@@ -28,10 +28,10 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           password: ${{ secrets.SSH_PASSWORD }}
           script: |
-            export PATH="$PATH:$(npm bin -g)"
-            export PATH="$PATH:$(yarn global bin)"
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+            export PATH="$PATH:$(npm bin -g)"
+            export PATH="$PATH:$(yarn global bin)"
             cd ~/phc-server
             pm2 stop psn-hack-server && pm2 delete psn-hack-server;
             git pull;
