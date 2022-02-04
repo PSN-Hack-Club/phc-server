@@ -31,7 +31,7 @@ jobs:
             export NVM_DIR="$HOME/.nvm"
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             cd ~/phc-server
-            pm2 stop phc-server && pm2 delete phc-server;
+            pm2 stop psn-hack-server && pm2 delete psn-hack-server;
             git pull;
             yarn;
             pm2 start ecosystem.config.js --env production
