@@ -49,9 +49,9 @@ app.post('/join', async (req, res) => {
 
     let resp
 
+    const token = process.env.DISCORD_TOKEN
     try {
         const channel = process.env.DISCORD_CHANNEL
-        const token = process.env.DISCORD_TOKEN
         resp = await axios.post(
             `https://discordapp.com/api/v6/channels/${channel}/invites`,
             {
@@ -76,22 +76,32 @@ app.post('/join', async (req, res) => {
     const url = `https://discord.gg/${code}`
 
     try {
-        await Invites.create({email, name, inviteUrl: url})
-    } catch {
-    }
-
-    try {
         await sendEmail({
             from: process.env.EMAIL_ADDRESS,
             to: email,
             subject: 'PSN Hack Club - Discord Invite',
             html: `<div style="width: 100%; border-radius: 1em; background-color: white !important; color: black;"><p style="font-size: 1.5rem; margin-bottom:0; font-weight: 800">Welcome to the club!</p><p>Dear ${name},</p><p>You're receiving this email because your email was used to sign up for the PSN Hack Club!<br/>Join the discord server by clicking <a href="${url}" target="_blank">this link</a>. The invite will expire in 48 hours.</p><p>If that did not work, please use the link below.<br/><a href="${url}">${url}</a></p><p>You can ignore this email if you did not request an invite.</p><p>PSN Hack Club</p></div>`,
         })
-    }
-    catch {
+    } catch {
+        try {
+            await axios.post(
+                `https://discordapp.com/api/v6/invtes/${code}`,
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        Authorization: `Bot ${token}`,
+                    },
+                }
+            )
+        } catch {
+        }
         return res.status(500).send({msg: 'Internal Server Error'})
     }
 
+    try {
+        await Invites.create({email, name, inviteUrl: url})
+    } catch {
+    }
 
     return res.status(200).send({msg: 'Email sent!'})
 })
