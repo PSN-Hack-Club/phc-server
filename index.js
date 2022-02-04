@@ -4,9 +4,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const Invites = require("./models/invite.model");
 const {validPathwaysEmail, nameFromEmail} = require("./utils/emails");
-const emailClient = require("./utils/emailClient");
+const sendEmail = require("./utils/emailClient");
 const axios = require("axios");
-
 const PORT = 1337;
 
 mongoose.connect(process.env.MONGODB_URL).catch((err) => {
@@ -30,20 +29,21 @@ app.post('/join', async (req, res) => {
     }
     const email = req.body.email
     if (!email) {
-        return res.status(400).send({ msg: 'No email provided' })
+        return res.status(400).send({msg: 'No email provided'})
     }
 
     const isValid = validPathwaysEmail(email)
     if (!isValid) {
-        return res.status(400).send({ msg: 'Invalid Email Provided' })
+        return res.status(400).send({msg: 'Invalid Email Provided'})
     }
 
     try {
-        const invite = await Invites.findOne({ email })
+        const invite = await Invites.findOne({email})
         if (invite) {
-            return res.status(409).send({ msg: 'Invite already sent' })
+            return res.status(409).send({msg: 'Invite already sent'})
         }
-    } catch {}
+    } catch {
+    }
 
     const name = nameFromEmail(email)
 
@@ -69,31 +69,31 @@ app.post('/join', async (req, res) => {
     } catch (e) {
         console.error(e)
         console.log('Discord issue')
-        return res.status(500).send({ msg: 'Internal Server Error' })
+        return res.status(500).send({msg: 'Internal Server Error'})
     }
 
-    const { code } = resp.data
+    const {code} = resp.data
     const url = `https://discord.gg/${code}`
 
     try {
-        await Invites.create({ email, name, inviteUrl: url })
-    } catch {}
+        await Invites.create({email, name, inviteUrl: url})
+    } catch {
+    }
 
-    emailClient.sendMail(
-        {
+    try {
+        await sendEmail({
             from: process.env.EMAIL_ADDRESS,
             to: email,
             subject: 'PSN Hack Club - Discord Invite',
             html: `<div style="width: 100%; border-radius: 1em; background-color: white !important; color: black;"><p style="font-size: 1.5rem; margin-bottom:0; font-weight: 800">Welcome to the club!</p><p>Dear ${name},</p><p>You're receiving this email because your email was used to sign up for the PSN Hack Club!<br/>Join the discord server by clicking <a href="${url}" target="_blank">this link</a>. The invite will expire in 48 hours.</p><p>If that did not work, please use the link below.<br/><a href="${url}">${url}</a></p><p>You can ignore this email if you did not request an invite.</p><p>PSN Hack Club</p></div>`,
-        },
-        (err, _) => {
-            if (err) {
-                console.log(err)
-            }
-        }
-    )
+        })
+    }
+    catch {
+        return res.status(500).send({msg: 'Internal Server Error'})
+    }
 
-    return res.status(200).send({ msg: 'Email sent!' })
+
+    return res.status(200).send({msg: 'Email sent!'})
 })
 
 app.get('/', (req, res) => {
