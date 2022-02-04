@@ -84,7 +84,7 @@ app.post('/join', async (req, res) => {
         })
     } catch {
         try {
-            await axios.post(
+            await axios.delete(
                 `https://discordapp.com/api/v6/invtes/${code}`,
                 {
                     headers: {
