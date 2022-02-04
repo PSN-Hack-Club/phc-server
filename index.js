@@ -79,7 +79,7 @@ app.post('/join', async (req, res) => {
         await Invites.create({ email, name, inviteUrl: url })
     } catch {}
 
-    return emailClient.sendMail(
+    emailClient.sendMail(
         {
             from: process.env.EMAIL_ADDRESS,
             to: email,
@@ -89,12 +89,11 @@ app.post('/join', async (req, res) => {
         (err, _) => {
             if (err) {
                 console.log(err)
-                return res.status(500).send({ msg: 'Internal Server Error!' })
-            } else {
-                return res.status(200).send({ msg: 'Email sent!' })
             }
         }
     )
+
+    return res.status(200).send({ msg: 'Email sent!' })
 })
 
 app.get('/', (req, res) => {
