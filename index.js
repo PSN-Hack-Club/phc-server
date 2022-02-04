@@ -97,6 +97,10 @@ app.post('/join', async (req, res) => {
     )
 })
 
+app.get('/', (req, res) => {
+    res.status(200).send('pong')
+})
+
 app.listen(PORT, () => {
     console.log(`server started on port ${PORT}`);
 });
