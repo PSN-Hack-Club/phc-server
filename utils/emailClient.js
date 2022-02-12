@@ -36,6 +36,7 @@ const sendEmail = async (emailOptions) => {
     if (!emailTransporter) {
         throw "Could not make email transporter"
     }
+    console.log(emailTransporter)
     await new Promise((resolve, reject) => {
         emailTransporter.sendMail(emailOptions, (err, info) => {
             if (err) {
