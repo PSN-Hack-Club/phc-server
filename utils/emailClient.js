@@ -16,8 +16,7 @@ const createTransporter = async () => {
     let accessToken;
     try {
         accessToken = oauth2Client.getAccessToken();
-    }
-    catch (e) {
+    } catch (e) {
         console.log(e)
         return
     }
@@ -37,11 +36,14 @@ const sendEmail = async (emailOptions) => {
     if (!emailTransporter) {
         throw "Could not make email transporter"
     }
-    await emailTransporter.sendMail(emailOptions, (err, _) => {
-        if (err) {
-            console.log(err)
-        }
-    });
+    await new Promise((resolve, reject) => {
+        emailTransporter.sendMail(emailOptions, (err, info) => {
+            if (err) {
+                reject(err)
+            }
+            resolve()
+        });
+    })
 };
 
 module.exports = sendEmail

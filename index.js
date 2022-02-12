@@ -82,7 +82,8 @@ app.post('/join', async (req, res) => {
             subject: 'PSN Hack Club - Discord Invite',
             html: `<div style="width: 100%; border-radius: 1em; background-color: white !important; color: black;"><p style="font-size: 1.5rem; margin-bottom:0; font-weight: 800">Welcome to the club!</p><p>Dear ${name},</p><p>You're receiving this email because your email was used to sign up for the PSN Hack Club!<br/>Join the discord server by clicking <a href="${url}" target="_blank">this link</a>. The invite will expire in 48 hours.</p><p>If that did not work, please use the link below.<br/><a href="${url}">${url}</a></p><p>You can ignore this email if you did not request an invite.</p><p>Best Regards<br/>PSN Hack Club</p><p style="font-size: 0.65rem; color: gray;">This is a one time email, you have not been subscribed to any service or newsletter.<br/>PSN Hack Club, Pathways School Noida, Noida, Uttar Pradesh<p/></p></div>`,
         })
-    } catch {
+    } catch (e) {
+        console.log(e)
         try {
             await axios.delete(
                 `https://discordapp.com/api/v6/invtes/${code}`,
