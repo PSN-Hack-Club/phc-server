@@ -26,7 +26,10 @@ const createTransporter = async () => {
         auth: {
             type: "OAuth2",
             user: process.env.EMAIL_ADDRESS,
-            accessToken,
+            clientId: process.env.EMAIL_CLIENT_ID,
+            clientSecret: process.env.EMAIL_CLIENT_SECRET,
+            refreshToken: process.env.EMAIL_REFRESH_TOKEN,
+            accessToken: accessToken,
         }
     });
 };
@@ -44,6 +47,8 @@ const sendEmail = async (emailOptions) => {
             resolve()
         });
     })
+
+    emailTransporter.close()
 };
 
 module.exports = sendEmail
