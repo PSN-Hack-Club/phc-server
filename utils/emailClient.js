@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer')
 const {google} = require('googleapis')
 const OAuth2 = google.auth.OAuth2;
 
-const createTransporter = async () => {
+const createTransporter = () => {
     const oauth2Client = new OAuth2(
         process.env.EMAIL_CLIENT_ID,
         process.env.EMAIL_CLIENT_SECRET,
@@ -36,7 +36,6 @@ const sendEmail = async (emailOptions) => {
     if (!emailTransporter) {
         throw "Could not make email transporter"
     }
-    console.log(emailTransporter)
     await new Promise((resolve, reject) => {
         emailTransporter.sendMail(emailOptions, (err, info) => {
             if (err) {
