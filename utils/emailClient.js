@@ -56,10 +56,11 @@ const sendEmailRaw = async (emailOptions) => {
 const sendEmail = async ({ header, name, content, ...emailOptions }) => {
   await sendEmailRaw({
     ...emailOptions,
-    html: Handlebars.compile(
-      fs.readFileSync("../templates/email.hbs", "utf8"),
-      { header, name, content }
-    ),
+    html: Handlebars.compile(fs.readFileSync("./templates/email.hbs", "utf8"), {
+      header,
+      name,
+      content,
+    }),
   });
 };
 
