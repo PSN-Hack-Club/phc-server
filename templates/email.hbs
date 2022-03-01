@@ -1,0 +1,23 @@
+<div
+  style="
+    width: 100%;
+    border-radius: 1em;
+    background-color: white !important;
+    color: black;
+  "
+>
+  <p style="font-size: 1.5rem; margin-bottom: 0; font-weight: 800">
+    {{header}}
+  </p>
+  <p>Dear {{name}},</p>
+  {{#each content}}
+    <p>
+      {{{this}}}
+    </p>
+  {{/each}}
+  <p>Best Regards<br />PSN Hack Club</p>
+  <p style="font-size: 0.65rem; color: gray">
+    This is a one time email, you have not been subscribed to any service or
+    newsletter.<br />PSN Hack Club, Pathways School Noida, Noida, Uttar Pradesh
+  </p>
+</div>
