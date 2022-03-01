@@ -125,6 +125,7 @@ app.post(
   }),
   async (req, res) => {
     const invites = await Invites.find({}).select("email").exec();
+    console.log(invites);
   }
 );
 
