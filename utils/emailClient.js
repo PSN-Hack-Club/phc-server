@@ -2,7 +2,9 @@ const nodemailer = require("nodemailer");
 const { google } = require("googleapis");
 const OAuth2 = google.auth.OAuth2;
 const Handlebars = require("handlebars");
-const fs = require("fs");
+const template = Handlebars.compile(
+  require("fs").readFileSync("./templates/email.hbs", "utf8")
+);
 
 const createTransporter = async () => {
   const oauth2Client = new OAuth2(
@@ -56,7 +58,7 @@ const sendEmailRaw = async (emailOptions) => {
 const sendEmail = async ({ header, name, content, ...emailOptions }) => {
   await sendEmailRaw({
     ...emailOptions,
-    html: Handlebars.compile(fs.readFileSync("./templates/email.hbs", "utf8"), {
+    html: template({
       header,
       name,
       content,
