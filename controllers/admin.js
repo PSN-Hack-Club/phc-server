@@ -1,9 +1,47 @@
 const router = require('express').Router()
 const Invites = require('../models/invite.model')
 const { utcTimeNow } = require('../utils/time')
+const { sendEmail } = require('../utils/emailClient')
 
-router.post('/sendToAll', async (req, res) => {
-  const invites = await Invites.find({}).select('email').exec()
+router.post('/sendMailToAll', async (req, res) => {
+  const { subject, emailHeader, content } = req.body
+
+  if (!subject || !emailHeader || !content) {
+    return res.sendStatus(400)
+  }
+
+  const invites = await Invites.find({}).select('email name').exec()
+  await Promise.all(
+    invites.map((invite) => {
+      return sendEmail({
+        to: invite.email,
+        name: invite.name.split(' ')[0],
+        subject,
+        header: emailHeader,
+        content,
+      })
+    })
+  )
+
+  res.sendStatus(200)
+})
+
+router.post('/sendMail', async (req, res) => {
+  const { to, name, subject, emailHeader, content } = req.body
+
+  if (!subject || !emailHeader || !content || !to || !name) {
+    return res.sendStatus(400)
+  }
+
+  await sendEmail({
+    to,
+    name,
+    subject,
+    header: emailHeader,
+    content,
+  })
+
+  res.sendStatus(200)
 })
 
 router.post('/sanitize', async (req, res) => {
@@ -22,8 +60,8 @@ router.post('/sanitize', async (req, res) => {
       discordId: { $exists: false },
     })
     res.status(201).send(deleted)
-  } catch (e) {
-    res.status(500).send({ error: e })
+  } catch (error) {
+    res.status(500).send({ error })
   }
 })
 

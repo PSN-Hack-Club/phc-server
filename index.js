@@ -90,7 +90,6 @@ app.post('/join', async (req, res) => {
 
   try {
     await sendEmail({
-      from: process.env.EMAIL_ADDRESS,
       to: email,
       subject: 'PSN Hack Club - Discord Invite',
       name,
