@@ -18,7 +18,6 @@
     "nodemon": "^2.0.15"
   },
   "scripts": {
-    "dev": "nodemon index.js",
-    "sanitize": "node sanitize.js"
+    "dev": "nodemon index.js"
   }
 }

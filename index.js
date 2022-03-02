@@ -28,6 +28,16 @@ app.use(
   })
 )
 
+app.use(
+  '/admin',
+  basicAuth({
+    users: {
+      admin: process.env.BASIC_AUTH,
+    },
+  }),
+  require('./controllers/admin')
+)
+
 app.post('/join', async (req, res) => {
   const email = req.body.email
   if (!email) {
@@ -117,22 +127,6 @@ app.post('/join', async (req, res) => {
 
   return res.status(200).send({ msg: 'Email sent!' })
 })
-
-app.get('/', (req, res) => {
-  res.status(200).send('pong')
-})
-
-app.post(
-  '/sendToAll',
-  basicAuth({
-    users: {
-      admin: process.env.BASIC_AUTH,
-    },
-  }),
-  async (req, res) => {
-    const invites = await Invites.find({}).select('email').exec()
-  }
-)
 
 app.listen(PORT, () => {
   console.log(`server started on port ${PORT}`)

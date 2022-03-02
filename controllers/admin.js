@@ -1,11 +1,17 @@
-const mongoose = require('mongoose')
+const router = require('express').Router()
+const connectDb = require('../middleware/mongodb')
 const Invites = require('./models/invite.model')
 const { utcTimeNow } = require('./utils/time')
 
-const main = async () => {
+router.use(connectDb)
+
+router.post('/sendToAll', async (req, res) => {
+  const invites = await Invites.find({}).select('email').exec()
+})
+
+router.post('/sanitize', async (req, res) => {
   const timeNow = utcTimeNow().getTime()
   const expiryTime = timeNow - 172800000
-  await mongoose.connect(process.env.MONGODB_URL)
 
   // Delete all invites that have expired and don't have an ID yet
   const deleted = await Invites.deleteMany({
@@ -18,9 +24,7 @@ const main = async () => {
     discordId: { $exists: false },
   })
 
-  console.log(deleted)
-}
-
-main().catch((err) => {
-  console.error(err)
+  res.status(201).send(deleted)
 })
+
+module.exports = router
