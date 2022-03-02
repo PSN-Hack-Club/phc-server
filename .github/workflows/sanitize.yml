@@ -13,6 +13,7 @@ jobs:
     steps:
       - name: Make the REST request
         uses: fjogeleit/http-request-action@master
+        id: myRequest
         with:
           url: 'https://server.psn.hackclub.com/admin/sanitize/'
           method: 'POST'
