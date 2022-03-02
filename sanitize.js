@@ -8,7 +8,7 @@ const main = async () => {
   await mongoose.connect(process.env.MONGODB_URL)
 
   // Delete all invites that have expired and don't have an ID yet
-  await Invites.deleteMany({
+  const deleted = await Invites.deleteMany({
     $or: [
       {
         createdAt: { $lte: expiryTime },
@@ -17,6 +17,8 @@ const main = async () => {
     ],
     discordId: { $exists: false },
   })
+
+  console.log(deleted)
 }
 
 main().catch((err) => {
