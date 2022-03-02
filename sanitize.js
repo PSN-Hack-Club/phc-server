@@ -9,7 +9,12 @@ const main = async () => {
 
   // Delete all invites that have expired and don't have an ID yet
   await Invites.deleteMany({
-    createdAt: { $lte: expiryTime },
+    $or: [
+      {
+        createdAt: { $lte: expiryTime },
+      },
+      { createdAt: { $exists: false } },
+    ],
     discordId: { $exists: false },
   })
 }
