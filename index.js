@@ -98,7 +98,6 @@ app.post('/join', async (req, res) => {
         `You're receiving this email because your email was used to sign up for the PSN Hack Club!<br/>Join the discord server by clicking <a href="${url}" target="_blank">this link</a>. The invite will expire in 48 hours.`,
         `If that did not work, please use the link below.<br/><a href="${url}">${url}</a>`,
         `You can ignore this email if you did not request an invite.`,
-        `<p style='font-size: 0.65rem; color: gray'>By joining the hack club, you agree to recieve updates and announcements via emails.</p>`,
       ],
     })
   } catch (e) {
