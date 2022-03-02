@@ -18,3 +18,5 @@ jobs:
           method: 'POST'
           username: ${{ secrets.BASIC_USER }}
           password: ${{ secrets.BASIC_PASSWORD }}
+      - name: Show Response
+        run: echo ${{ steps.myRequest.outputs.response }}
