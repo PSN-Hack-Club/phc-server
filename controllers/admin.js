@@ -1,5 +1,4 @@
 const router = require('express').Router()
-const connectDb = require('../middleware/mongodb')
 const Invites = require('../models/invite.model')
 const { utcTimeNow } = require('../utils/time')
 
