@@ -3,8 +3,8 @@ name: Sanitize Mongo
 on:
   workflow_dispatch:
   schedule:
-    # Runs at 3:30am UTC - 9am IST
-    - cron: '30 3 * * *'
+    # Runs at 0 UTC Monday - 5:30 AM IST Monday
+    - cron: '0 0 * * 1'
 
 jobs:
   sanitize:
