@@ -43,6 +43,7 @@ const sendEmailRaw = async (emailOptions) => {
   if (!emailTransporter) {
     throw 'Could not make email transporter'
   }
+
   await new Promise((resolve, reject) => {
     emailTransporter.sendMail(
       {
@@ -72,4 +73,13 @@ const sendEmail = async ({ header, name, content, ...emailOptions }) => {
   })
 }
 
-module.exports = { sendEmail, sendEmailRaw }
+const sendBulk = async (data) => {
+  const emailTransporter = await createTransporter()
+  if (!emailTransporter) {
+    throw 'Could not make email transporter'
+  }
+
+  await Promise.all(data.map((x) => sendEmail(...x)))
+}
+
+module.exports = { sendEmail, sendEmailRaw, sendBulk }

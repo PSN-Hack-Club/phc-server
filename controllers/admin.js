@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const Invites = require('../models/invite.model')
 const { utcTimeNow } = require('../utils/time')
-const { sendEmail } = require('../utils/emailClient')
+const { sendBulk } = require('../utils/emailClient')
 
 router.post('/sendMailToAll', async (req, res) => {
   const { subject, emailHeader, content } = req.body
@@ -11,16 +11,15 @@ router.post('/sendMailToAll', async (req, res) => {
   }
 
   const invites = await Invites.find({}).select('email name').exec()
-  await Promise.all(
-    invites.map((invite) => {
-      return sendEmail({
-        to: invite.email,
-        name: invite.name.split(' ')[0],
-        subject,
-        header: emailHeader,
-        content,
-      })
-    })
+
+  await sendBulk(
+    invites.map((invite) => ({
+      to: invite.email,
+      name: invite.name.split(' ')[0],
+      subject,
+      header: emailHeader,
+      content,
+    }))
   )
 
   res.sendStatus(200)
