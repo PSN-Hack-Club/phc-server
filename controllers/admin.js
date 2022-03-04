@@ -12,7 +12,7 @@ router.post('/sendMailToAll', async (req, res) => {
 
   const invites = await Invites.find({}).select('email name').exec()
 
-  await sendBulk(
+  const failed = await sendBulk(
     invites.map((invite) => ({
       to: invite.email,
       name: invite.name.split(' ')[0],
@@ -22,7 +22,7 @@ router.post('/sendMailToAll', async (req, res) => {
     }))
   )
 
-  res.sendStatus(200)
+  res.status(200).send(failed)
 })
 
 router.post('/sendMail', async (req, res) => {

@@ -79,7 +79,22 @@ const sendBulk = async (data) => {
     throw 'Could not make email transporter'
   }
 
-  await Promise.all(data.map((x) => sendEmail(...x)))
+  const failed = []
+
+  await Promise.all(
+    data.map(async (x) => {
+      try {
+        await sendEmail(...x)
+      } catch (e) {
+        failed.push({
+          email: x.to,
+          error: e,
+        })
+      }
+    })
+  )
+
+  return failed
 }
 
 module.exports = { sendEmail, sendEmailRaw, sendBulk }
