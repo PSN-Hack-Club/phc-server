@@ -80,11 +80,13 @@ const sendBulk = async (data) => {
   }
 
   const failed = []
+  const succeeded = []
 
   await Promise.all(
     data.map(async (x) => {
       try {
         await sendEmail(...x)
+        succeeded.push(x.to)
       } catch (e) {
         failed.push({
           email: x.to,
@@ -94,7 +96,7 @@ const sendBulk = async (data) => {
     })
   )
 
-  return failed
+  return { failed, succeeded }
 }
 
 module.exports = { sendEmail, sendEmailRaw, sendBulk }
