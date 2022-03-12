@@ -74,31 +74,22 @@ const sendEmail = async ({ header, name, content, ...emailOptions }) => {
 }
 
 const sendBulk = async (data) => {
-  const emailTransporter = await createTransporter()
-  if (!emailTransporter) {
-    throw 'Could not make email transporter'
-  }
-
   const failed = []
   const succeeded = []
 
-  const emails = []
-
-  await Promise.all(
-    data.map(async (x) => {
-      console.log(x)
-      try {
-        await sendEmail(x)
-        succeeded.push(x.to)
-      } catch (e) {
-        failed.push({
-          email: x.to,
-          error: JSON.stringify(e),
-        })
-        console.log(e)
-      }
-    })
-  )
+  for (let i = 0; i < data.length; i++) {
+    x = data[i]
+    try {
+      await sendEmail(x)
+      succeeded.push(x.to)
+    } catch (e) {
+      failed.push({
+        email: x.to,
+        error: JSON.stringify(e),
+      })
+      console.log(e)
+    }
+  }
 
   return { failed, succeeded }
 }
