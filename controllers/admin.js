@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const Invites = require('../models/invite.model')
 const { utcTimeNow } = require('../utils/time')
-const { sendBulk } = require('../utils/emailClient')
+const { sendBulk, sendEmail } = require('../utils/emailClient')
 
 router.post('/sendMailToAll', async (req, res) => {
   const { subject, emailHeader, content } = req.body
