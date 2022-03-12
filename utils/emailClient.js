@@ -92,6 +92,7 @@ const sendBulk = async (data) => {
           email: x.to,
           error: JSON.stringify(e),
         })
+        console.log(e)
       }
     })
   )
