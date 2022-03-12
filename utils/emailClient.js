@@ -90,7 +90,7 @@ const sendBulk = async (data) => {
       } catch (e) {
         failed.push({
           email: x.to,
-          error: e,
+          error: JSON.stringify(e),
         })
       }
     })
