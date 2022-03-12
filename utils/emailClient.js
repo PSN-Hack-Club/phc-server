@@ -82,10 +82,13 @@ const sendBulk = async (data) => {
   const failed = []
   const succeeded = []
 
+  const emails = []
+
   await Promise.all(
     data.map(async (x) => {
+      console.log(x)
       try {
-        await sendEmail(...x)
+        await sendEmail(x)
         succeeded.push(x.to)
       } catch (e) {
         failed.push({
