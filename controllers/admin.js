@@ -1,9 +1,16 @@
+<<<<<<< HEAD
 import express from 'express'
 const router = express.Router()
 
 import Invites from '../models/invite.model.js'
 import { utcTimeNow } from '../utils/time.js'
 import { sendBulk } from '../utils/emailClient.js'
+=======
+const router = require('express').Router()
+const Invites = require('../models/invite.model')
+const { utcTimeNow } = require('../utils/time')
+const { sendBulk, sendEmail } = require('../utils/emailClient')
+>>>>>>> b96863c989e84b843bb1ac0a4a6ef3a35b660e7d
 
 router.post('/sendMailToAll', async (req, res) => {
   const { subject, emailHeader, content } = req.body

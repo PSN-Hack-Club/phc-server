@@ -78,14 +78,10 @@ const sendEmail = async ({ header, name, content, ...emailOptions }) => {
 }
 
 const sendBulk = async (data) => {
-  const emailTransporter = await createTransporter()
-  if (!emailTransporter) {
-    throw 'Could not make email transporter'
-  }
-
   const failed = []
   const succeeded = []
 
+<<<<<<< HEAD
   // send only 3 emails concurrently
   const limit = pLimit(3)
 
@@ -112,10 +108,17 @@ const sendBulk = async (data) => {
           }
         )
       })
+=======
+  for (let i = 0; i < data.length; i++) {
+    x = data[i]
+    try {
+      await sendEmail(x)
+>>>>>>> b96863c989e84b843bb1ac0a4a6ef3a35b660e7d
       succeeded.push(x.to)
     } catch (e) {
       failed.push({
         email: x.to,
+<<<<<<< HEAD
         error: e,
       })
     }
@@ -126,6 +129,13 @@ const sendBulk = async (data) => {
   await Promise.all(promises)
 
   emailTransporter.close()
+=======
+        error: JSON.stringify(e),
+      })
+      console.log(e)
+    }
+  }
+>>>>>>> b96863c989e84b843bb1ac0a4a6ef3a35b660e7d
 
   return { failed, succeeded }
 }
