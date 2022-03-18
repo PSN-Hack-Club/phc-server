@@ -1,14 +1,18 @@
-require('dotenv').config()
-const express = require('express')
-const cors = require('cors')
-const mongoose = require('mongoose')
-const Invites = require('./models/invite.model')
-const { validPathwaysEmail, nameFromEmail } = require('./utils/emails')
-const { sendEmail } = require('./utils/emailClient')
-const basicAuth = require('express-basic-auth')
-const axios = require('axios')
-const { utcTimeNow } = require('./utils/time')
+import dotenv from 'dotenv'
+dotenv.config()
+
+import express from 'express'
+import cors from 'cors'
+import mongoose from 'mongoose'
+import Invites from './models/invite.model.js'
+import { validPathwaysEmail, nameFromEmail } from './utils/emails.js'
+import { sendEmail } from './utils/emailClient.js'
+import basicAuth from 'express-basic-auth'
+import axios from 'axios'
+import { utcTimeNow } from './utils/time.js'
 const PORT = 1337
+
+import admin from './controllers/admin.js'
 
 mongoose.connect(process.env.MONGODB_URL).catch((err) => {
   console.error(err)
@@ -35,7 +39,7 @@ app.use(
       admin: process.env.BASIC_AUTH,
     },
   }),
-  require('./controllers/admin')
+  admin
 )
 
 app.post('/join', async (req, res) => {
@@ -125,6 +129,10 @@ app.post('/join', async (req, res) => {
   } catch {}
 
   return res.status(200).send({ msg: 'Email sent!' })
+})
+
+app.get('/', (req, res) => {
+  res.status(200).send('pong')
 })
 
 app.listen(PORT, () => {

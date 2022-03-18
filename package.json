@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "type": "module",
   "dependencies": {
     "axios": "^0.25.0",
     "cors": "^2.8.5",
@@ -12,7 +13,8 @@
     "googleapis": "^94.0.0",
     "handlebars": "^4.7.7",
     "mongoose": "^6.2.0",
-    "nodemailer": "^6.7.2"
+    "nodemailer": "^6.7.2",
+    "p-limit": "^4.0.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.15"

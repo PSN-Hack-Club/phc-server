@@ -1,4 +1,5 @@
-const { Schema, model, models } = require("mongoose");
+import mongoose from 'mongoose'
+const { Schema, model, models } = mongoose
 
 const inviteModel = new Schema({
   email: {
@@ -21,6 +22,6 @@ const inviteModel = new Schema({
     type: Schema.Types.Number,
     required: true,
   },
-});
+})
 
-module.exports = models.Invite || model("Invite", inviteModel);
+export default models.Invite || model('Invite', inviteModel)

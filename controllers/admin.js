@@ -1,7 +1,9 @@
-const router = require('express').Router()
-const Invites = require('../models/invite.model')
-const { utcTimeNow } = require('../utils/time')
-const { sendBulk } = require('../utils/emailClient')
+import express from 'express'
+const router = express.Router()
+
+import Invites from '../models/invite.model.js'
+import { utcTimeNow } from '../utils/time.js'
+import { sendBulk } from '../utils/emailClient.js'
 
 router.post('/sendMailToAll', async (req, res) => {
   const { subject, emailHeader, content } = req.body
@@ -12,17 +14,20 @@ router.post('/sendMailToAll', async (req, res) => {
 
   const invites = await Invites.find({}).select('email name').exec()
 
-  const status = await sendBulk(
-    invites.map((invite) => ({
-      to: invite.email,
-      name: invite.name.split(' ')[0],
-      subject,
-      header: emailHeader,
-      content,
-    }))
-  )
-
-  res.status(200).send(status)
+  try {
+    const status = await sendBulk(
+      invites.map((invite) => ({
+        to: invite.email,
+        name: invite.name.split(' ')[0],
+        subject,
+        header: emailHeader,
+        content,
+      }))
+    )
+    res.status(200).send(status)
+  } catch (e) {
+    res.status(500).send(e)
+  }
 })
 
 router.post('/sendMail', async (req, res) => {
@@ -64,4 +69,4 @@ router.post('/sanitize', async (req, res) => {
   }
 })
 
-module.exports = router
+export default router
