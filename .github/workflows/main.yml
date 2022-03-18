@@ -6,7 +6,7 @@ name: CI
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
   push:
-    branches: [ master ]
+    branches: [master]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -36,4 +36,4 @@ jobs:
             pm2 stop psn-hack-server && pm2 delete psn-hack-server;
             git pull;
             yarn;
-            pm2 start ecosystem.config.js --env production
+            pm2 start ecosystem.config.cjs --env production
