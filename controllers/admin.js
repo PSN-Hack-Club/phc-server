@@ -3,7 +3,7 @@ const router = express.Router()
 
 import Invites from '../models/invite.model.js'
 import { utcTimeNow } from '../utils/time.js'
-import { sendBulk } from '../utils/emailClient.js'
+import { sendBulk, sendMail } from '../utils/emailClient.js'
 
 router.post('/sendMailToAll', async (req, res) => {
   const { subject, emailHeader, content } = req.body
