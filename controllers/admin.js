@@ -38,7 +38,7 @@ router.post('/sendMail', async (req, res) => {
     return res.sendStatus(400)
   }
 
-  await sendEmail({
+  await sendMail({
     to,
     name,
     subject,

@@ -42,7 +42,7 @@ const createTransporter = async ({ pool } = { pool: false }) => {
   })
 }
 
-const sendEmailRaw = async (emailOptions) => {
+const sendMailRaw = async (emailOptions) => {
   const emailTransporter = await createTransporter()
   if (!emailTransporter) {
     throw 'Could not make email transporter'
@@ -66,8 +66,8 @@ const sendEmailRaw = async (emailOptions) => {
   emailTransporter.close()
 }
 
-const sendEmail = async ({ header, name, content, ...emailOptions }) => {
-  await sendEmailRaw({
+const sendMail = async ({ header, name, content, ...emailOptions }) => {
+  await sendMailRaw({
     ...emailOptions,
     html: template({
       header,
@@ -130,4 +130,4 @@ const sendBulk = async (data) => {
   return { failed, succeeded }
 }
 
-export { sendEmail, sendEmailRaw, sendBulk }
+export { sendMail, sendMailRaw, sendBulk }

@@ -6,7 +6,7 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import Invites from './models/invite.model.js'
 import { validPathwaysEmail, nameFromEmail } from './utils/emails.js'
-import { sendEmail } from './utils/emailClient.js'
+import { sendMail } from './utils/emailClient.js'
 import basicAuth from 'express-basic-auth'
 import axios from 'axios'
 import { utcTimeNow } from './utils/time.js'
@@ -93,7 +93,7 @@ app.post('/join', async (req, res) => {
   const url = `https://discord.gg/${code}`
 
   try {
-    await sendEmail({
+    await sendMail({
       to: email,
       subject: 'PSN Hack Club - Discord Invite',
       name,
