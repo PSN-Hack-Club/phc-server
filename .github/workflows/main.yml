@@ -32,7 +32,7 @@ jobs:
             [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
             export PATH="$PATH:$(npm bin -g)"
             export PATH="$PATH:$(yarn global bin)"
-            cd ~/phc-server
+            cd ~/investing-society-server
             pm2 stop psn-hack-server && pm2 delete psn-hack-server;
             git pull;
             yarn;
