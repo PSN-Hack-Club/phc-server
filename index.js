@@ -55,6 +55,7 @@ app.post('/join', async (req, res) => {
 
   try {
     const invite = await Invites.findOne({ email })
+    console.log(invite)
     if (invite) {
       return res.status(409).send({ msg: 'Invite already sent' })
     }
